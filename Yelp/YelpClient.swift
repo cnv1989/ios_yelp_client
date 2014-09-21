@@ -33,5 +33,3 @@ class YelpClient: BDBOAuth1RequestOperationManager {
     }
     
 }
-
-
