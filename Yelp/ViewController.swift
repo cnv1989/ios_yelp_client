@@ -42,10 +42,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.updateSearchList()
-        self.searchView.frame.size.width = self.view.frame.size.width
+        self.updateSearchView()
     }
     
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        self.updateSearchView()
+    }
+    
+    func updateSearchView() {
         self.searchView.frame.size.width = self.view.frame.size.width
     }
     
