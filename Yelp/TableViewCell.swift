@@ -8,17 +8,80 @@
 
 import UIKit
 
+var ImageCache =  [String : UIImage]()
+
 class TableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    
+    @IBOutlet weak var pic: UIImageView!
+    @IBOutlet weak var ratings: UIImageView!
+    @IBOutlet weak var restaurant: UILabel!
+    @IBOutlet weak var reviews: UILabel!
+    @IBOutlet weak var address: UILabel!
+    @IBOutlet weak var categories: UILabel!
+    @IBOutlet weak var phone: UILabel!
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        restaurant.preferredMaxLayoutWidth = frame.width
+        self.pic.layer.cornerRadius = 10
+        self.pic.clipsToBounds = true
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    func configure(result: NSDictionary) {
+        var name: AnyObject = result["name"]!
+        var phone: AnyObject = result["phone"]!
+        var picUrl: AnyObject = result["image_url"]!
+        var ratingsUrl: AnyObject = result["rating_img_url"]!
+        var location: NSDictionary = result["location"]! as NSDictionary
 
-        // Configure the view for the selected state
+        var joiner = ", "
+
+        var displayAddress = location["display_address"] as [String]
+        var address = joiner.join(displayAddress)
+        
+        var categories = result["categories"] as NSArray
+        var cats: [String] = []
+        
+        for category in categories {
+            cats.append((category as Array)[0] as String)
+        }
+        
+        var reviews: AnyObject = result["review_count"]!
+        
+        self.categories.text = joiner.join(cats)
+        self.restaurant.text = "\(name)"
+        self.phone.text = "call: \(phone)"
+        self.address.text = address
+        self.reviews.text = "reviews: \(reviews)"
+        self.loadImage("\(picUrl)", imageView: self.pic)
+        self.loadImage("\(ratingsUrl)", imageView: self.ratings)
     }
+    
+    func loadImage(urlString: NSString, imageView: UIImageView) {
+        var image: UIImage? = nil
+        let imageRequestSuccess = {
+            (request : NSURLRequest!, response : NSHTTPURLResponse!, image : UIImage!) -> Void in
+            ImageCache[urlString] = image
+            imageView.image = image;
+        }
+        
+        let imageRequestFailure = {
+            (request : NSURLRequest!, response : NSHTTPURLResponse!, error : NSError!) -> Void in
+            NSLog("imageRequrestFailure")
+        }
+        
+        if image == nil {
+            var imgURL: NSURL = NSURL(string: urlString)
+            // Download an NSData representation of the image at the URL
+            let request: NSURLRequest = NSURLRequest(URL: imgURL)
+            imageView.setImageWithURLRequest(request, placeholderImage: nil, success: imageRequestSuccess, failure: imageRequestFailure)
+        } else {
+            dispatch_async(dispatch_get_main_queue(), {
+                imageView.image = image
+            })
+        }
 
+    }
 }

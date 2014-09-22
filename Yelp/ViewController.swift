@@ -21,6 +21,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let yelpToken = "lD_ATQydTA9D0jXsUXf81WObL0QHSw_B"
     let yelpTokenSecret = "cyiJqOz490lVha2ncnOdlMXTmoI"
     
+    //
+    var searchTerm = ""
+    var results: NSArray = []
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -33,10 +37,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         self.initYelpClient()
         self.initActivityIndicator()
+        self.tableView.estimatedRowHeight = 100.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.updateSearchList()
     }
     
     func initActivityIndicator() {
         self.activityIndicator.startAnimating()
+        self.activityIndicator.hidesWhenStopped = true
     }
     
     func hasConnectivity() -> Bool {
@@ -65,22 +73,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.results.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .Default, reuseIdentifier: "")
-        cell.textLabel?.text = "\(indexPath.row)"
+        let business = self.results[indexPath.row] as NSDictionary
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("com.cnv.yelp.table.view.cell") as TableViewCell;
+        cell.configure(business)
         return cell
     }
     
     
     func updateSearchList() -> Void {
-        client.searchWithTerm("Thai", success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-            if response == nil {
-                if self.hasConnectivity() == false {
-                } else {
+        client.searchWithTerm(self.searchTerm, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            if response != nil {
+                let dictionary = response! as NSDictionary
+                var res = dictionary["businesses"] as NSArray
+                if res.count > 0 {
+                    self.results = res
+                    self.tableView.reloadData()
                 }
+                self.activityIndicator.stopAnimating()
+                
                 self.activityIndicator.stopAnimating()
                 return
             }
