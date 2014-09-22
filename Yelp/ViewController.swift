@@ -14,6 +14,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // Refrencing outlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
 
     // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
     let yelpConsumerKey = "sAwNps3nGeOkNrB2By_dvg"
@@ -40,11 +42,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.updateSearchList()
+        self.searchView.frame.size.width = self.view.frame.size.width
+    }
+    
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        self.searchView.frame.size.width = self.view.frame.size.width
     }
     
     func initActivityIndicator() {
         self.activityIndicator.startAnimating()
         self.activityIndicator.hidesWhenStopped = true
+        self.tableView.hidden = true
     }
     
     func hasConnectivity() -> Bool {
@@ -94,8 +102,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.tableView.reloadData()
                 }
                 self.activityIndicator.stopAnimating()
-                
-                self.activityIndicator.stopAnimating()
+                self.tableView.hidden = false
                 return
             }
             }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
