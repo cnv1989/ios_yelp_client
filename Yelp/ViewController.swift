@@ -51,6 +51,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func updateSearchView() {
         self.searchView.frame.size.width = self.view.frame.size.width
+        self.searchBar.layer.cornerRadius = 5
+        self.searchBar.clipsToBounds = true
     }
     
     func initActivityIndicator() {

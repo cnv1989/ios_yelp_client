@@ -22,8 +22,8 @@
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="108" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="WCq-gG-c4v">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="108" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="WCq-gG-c4v">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationWidth="10" reuseIdentifier="com.cnv.yelp.table.view.cell" rowHeight="108" id="AK5-wB-oMJ" customClass="TableViewCell" customModule="Yelp" customModuleProvider="target">
@@ -145,16 +145,19 @@
                             <rect key="frame" x="18" y="5.5" width="530" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="HMY-OG-zTa">
-                                    <rect key="frame" x="0.0" y="0.0" width="530" height="33"/>
+                                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="HMY-OG-zTa">
+                                    <rect key="frame" x="0.0" y="5" width="530" height="23"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </searchBar>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="HMY-OG-zTa" firstAttribute="leading" secondItem="aOW-IL-vPO" secondAttribute="leading" id="1Wu-Tk-8KD"/>
                                 <constraint firstAttribute="trailing" secondItem="HMY-OG-zTa" secondAttribute="trailing" id="Bzc-xK-zMj"/>
-                                <constraint firstAttribute="bottom" secondItem="HMY-OG-zTa" secondAttribute="bottom" id="vip-TG-BsD"/>
-                                <constraint firstItem="HMY-OG-zTa" firstAttribute="top" secondItem="aOW-IL-vPO" secondAttribute="top" id="yJp-2D-JBU"/>
+                                <constraint firstAttribute="bottom" secondItem="HMY-OG-zTa" secondAttribute="bottom" constant="5" id="vip-TG-BsD"/>
+                                <constraint firstItem="HMY-OG-zTa" firstAttribute="top" secondItem="aOW-IL-vPO" secondAttribute="top" constant="5" id="yJp-2D-JBU"/>
                             </constraints>
                         </view>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="glZ-WP-zPA">
@@ -202,15 +205,17 @@
         <!--Navigation Controller-->
         <scene sceneID="RIZ-NC-63U">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TA1-iG-ZXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kxb-JY-6QR" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="iL1-a1-NiQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.84120244570000002" green="0.0" blue="0.088889746709999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.84120244570000002" green="0.0" blue="0.088889746709999995" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" red="0.84120244570000002" green="0.0" blue="0.088889746709999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textShadowColor" red="0.84120244570000002" green="0.0" blue="0.088889746709999995" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -218,6 +223,7 @@
                         <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="BhQ-1E-x2D"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TA1-iG-ZXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="272" y="-557"/>
         </scene>
