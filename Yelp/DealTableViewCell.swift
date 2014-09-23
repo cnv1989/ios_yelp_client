@@ -10,6 +10,7 @@ import UIKit
 
 class DealTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var dealStatus: UISwitch!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

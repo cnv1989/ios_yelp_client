@@ -45,7 +45,9 @@ class CategoryTableViewController: UITableViewController {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("subcategory.cell") as SubCategoryTableViewCell;
         var cat = self.categories_list[indexPath.row] as NSDictionary
         var title  = cat["title"]! as AnyObject
+        var alias = cat["alias"]
         cell.itemLabel.text = "\(title)"
+        cell.subCategorySwitch.restorationIdentifier = "\(alias)"
         return cell
     }
 

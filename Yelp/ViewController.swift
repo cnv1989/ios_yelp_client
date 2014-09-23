@@ -11,7 +11,7 @@ import UIKit
 class SearchOptions  {
     var categories = []
     var category_filter = ""
-    var radius_filter = 1000
+    var radius_filter = 0
     var sort = 0
     var deals_filter = false
     var limit = 10
@@ -55,12 +55,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.updateSearchOptions()
         self.initYelpClient()
         self.initActivityIndicator()
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.updateSearchList()
         self.updateSearchView()
     }
     
@@ -71,6 +69,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.deals_filter = SEARCH_OPTIONS.deals_filter
         self.limit = SEARCH_OPTIONS.limit
         self.term = SEARCH_OPTIONS.term
+        println(SEARCH_OPTIONS.sort)
     }
     
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -168,5 +167,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.updateSearchList()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.tableView.hidden = true
+        self.activityIndicator.startAnimating()
+        self.updateSearchOptions()
+        self.updateSearchList()
+    }
 }
 

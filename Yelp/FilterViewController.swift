@@ -38,6 +38,7 @@ class FilterViewController: UITableViewController {
     var distanceFilter = ListFilter()
     var sortFilter = ListFilter()
     var dealFilter = BoolFilter()
+    var initial_count: Int = 3
 
     @IBOutlet weak var distViewClose: UIView!
 
@@ -45,20 +46,22 @@ class FilterViewController: UITableViewController {
         super.viewDidLoad()
         self.updateYelpCategoryList()
         self.initSections()
+        self.initial_count = 0
 
         // Do any additional setup after loading the view.
     }
     
     func initSections() {
         self.dealFilter.name = "Offering a Deal"
+        self.dealFilter.state = SEARCH_OPTIONS.deals_filter
         
         self.distanceFilter.name = "Distance"
         self.distanceFilter.choices = ["auto", "1 block", "2 blocks"]
-        self.distanceFilter.display_choices = ["auto"]
+        self.distanceFilter.display_choices = [self.distanceFilter.choices[SEARCH_OPTIONS.radius_filter]]
         
         self.sortFilter.name = "Sort By"
         self.sortFilter.choices = ["Best Matched", "Heighest Rated", "Distance"]
-        self.sortFilter.display_choices = ["Best Matched"]
+        self.sortFilter.display_choices = [self.sortFilter.choices[SEARCH_OPTIONS.radius_filter]]
         
         sections.updateValue(self.dealFilter, forKey: "deal")
         sections.updateValue(self.distanceFilter, forKey: "distance")
@@ -104,7 +107,7 @@ class FilterViewController: UITableViewController {
         case "sort":
             return self.sortFilter.display_choices.count
         case "category":
-            return self.categories_list.count
+            return self.initial_count + 1
         default:
             return 0
         }
@@ -114,7 +117,9 @@ class FilterViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch self.section_keys[indexPath.section] {
         case "deal":
-            return self.tableView.dequeueReusableCellWithIdentifier("deal.cell") as DealTableViewCell;
+            let cell = self.tableView.dequeueReusableCellWithIdentifier("deal.cell") as DealTableViewCell
+            cell.dealStatus.on = SEARCH_OPTIONS.deals_filter
+            return cell;
         case "distance":
             let cell = self.tableView.dequeueReusableCellWithIdentifier("selection.cell") as SelectionTableViewCell;
             var choice: AnyObject = self.distanceFilter.display_choices[indexPath.row]
@@ -126,11 +131,17 @@ class FilterViewController: UITableViewController {
             cell.itemLabel.text = "\(choice)"
             return cell
         case "category":
-            let cell = self.tableView.dequeueReusableCellWithIdentifier("category.cell") as CategoryTableViewCell;
-            var cat = self.categories_list[indexPath.row] as NSDictionary
-            var title  = cat["title"]
-            cell.itemLabel.text = "\(title!)"
-            return cell
+            if indexPath.row < self.initial_count {
+                let cell = self.tableView.dequeueReusableCellWithIdentifier("category.cell") as CategoryTableViewCell;
+                var cat = self.categories_list[indexPath.row] as NSDictionary
+                var title  = cat["title"]
+                var alias = cat["alias"]
+                cell.itemLabel.text = "\(title!)"
+                cell.categorySwitch.restorationIdentifier = "\(alias!)"
+                return cell
+            } else {
+                return self.tableView.dequeueReusableCellWithIdentifier("showmore.cell") as CategoryTableViewCell;
+            }
         default:
             return self.tableView.dequeueReusableCellWithIdentifier("selection.cell") as SelectionTableViewCell;
         }
@@ -142,9 +153,11 @@ class FilterViewController: UITableViewController {
             return
         case "distance":
             self.toggleView(tableView, indexPath: indexPath)
+            SEARCH_OPTIONS.radius_filter = indexPath.row
             return
         case "sort":
             self.toggleView(tableView, indexPath: indexPath)
+            SEARCH_OPTIONS.sort = indexPath.row
             return
         default:
             return
@@ -185,6 +198,7 @@ class FilterViewController: UITableViewController {
             if parsedResult != nil {
                 self.categories_list = parsedResult! as NSArray
                 var view = self.view as UITableView
+                self.initial_count = min(self.categories_list.count, 3)
                 view.reloadData()
             }
         })
@@ -211,7 +225,19 @@ class FilterViewController: UITableViewController {
         return st
     }
     
+    @IBOutlet var onShowMore: UITapGestureRecognizer!
     
+    @IBAction func onShowMoreTapped(sender: AnyObject) {
+        println("tapped")
+        var view = self.view as UITableView
+        self.initial_count = max(self.categories_list.count - 1, 0)
+        view.reloadData()
+    }
+
+    @IBAction func onSearchClicked(sender: AnyObject) {
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         var view = self.view as UITableView
         var categoryViewController: CategoryTableViewController = segue.destinationViewController as CategoryTableViewController
@@ -220,4 +246,8 @@ class FilterViewController: UITableViewController {
         categoryViewController.categories_list = category["category"] as NSArray
     }
 
+    @IBAction func dealSwitchValueChanged(sender: AnyObject) {
+        var dealSwitch = sender as UISwitch
+        SEARCH_OPTIONS.deals_filter = dealSwitch.on
+    }
 }

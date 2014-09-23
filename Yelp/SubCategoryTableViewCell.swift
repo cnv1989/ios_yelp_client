@@ -15,6 +15,7 @@ class SubCategoryTableViewCell: UITableViewCell {
         // Initialization code
     }
 
+    @IBOutlet weak var subCategorySwitch: UISwitch!
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

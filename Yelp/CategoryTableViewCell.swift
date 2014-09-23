@@ -10,6 +10,9 @@ import UIKit
 
 class CategoryTableViewCell: UITableViewCell {
     @IBOutlet weak var itemLabel: UILabel!
+    
+    
+    @IBOutlet weak var categorySwitch: UISwitch!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
