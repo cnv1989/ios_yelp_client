@@ -9,6 +9,10 @@
 import UIKit
 
 class SelectionTableViewCell: UITableViewCell {
+    
+    
+    @IBOutlet weak var checkboxLabel: UILabel!
+    @IBOutlet weak var itemLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -30,10 +30,10 @@ class TableViewCell: UITableViewCell {
     }
 
     func configure(result: NSDictionary) {
-        var name: AnyObject = result["name"]!
-        var phone: AnyObject = result["phone"]!
-        var picUrl: AnyObject = result["image_url"]!
-        var ratingsUrl: AnyObject = result["rating_img_url"]!
+        var name: AnyObject = (result["name"] != nil) ? result["name"]! : "n/a"
+        var phone: AnyObject = (result["phone"] != nil) ? result["phone"]! : "n/a"
+        var picUrl: AnyObject = (result["image_url"] != nil) ? result["image_url"]! : "http://placehold.it/350x150"
+        var ratingsUrl: AnyObject = (result["rating_img_url"] != nil) ? result["rating_img_url"]! : "http://placehold.it/350x150"
         var location: NSDictionary = result["location"]! as NSDictionary
 
         var joiner = ", "

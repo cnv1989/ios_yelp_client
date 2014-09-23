@@ -8,7 +8,19 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SearchOptions  {
+    var categories = []
+    var category_filter = ""
+    var radius_filter = 1000
+    var sort = 0
+    var deals_filter = false
+    var limit = 10
+    var term = "food"
+}
+
+var SEARCH_OPTIONS = SearchOptions()
+
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIScrollViewDelegate {
     var client: YelpClient!
     
     // Refrencing outlets
@@ -16,6 +28,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    var category_filter = ""
+    var radius_filter = 1000
+    var sort = 0
+    var deals_filter = false
+    var limit = 10
+    var term = "food"
 
     // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
     let yelpConsumerKey = "sAwNps3nGeOkNrB2By_dvg"
@@ -24,7 +43,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let yelpTokenSecret = "cyiJqOz490lVha2ncnOdlMXTmoI"
     
     //
-    var searchTerm = ""
     var results: NSArray = []
     
     required init(coder aDecoder: NSCoder) {
@@ -37,12 +55,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.updateSearchOptions()
         self.initYelpClient()
         self.initActivityIndicator()
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.updateSearchList()
         self.updateSearchView()
+    }
+    
+    func updateSearchOptions() {
+        self.category_filter = SEARCH_OPTIONS.category_filter
+        self.radius_filter = SEARCH_OPTIONS.radius_filter
+        self.sort = SEARCH_OPTIONS.sort
+        self.deals_filter = SEARCH_OPTIONS.deals_filter
+        self.limit = SEARCH_OPTIONS.limit
+        self.term = SEARCH_OPTIONS.term
     }
     
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -99,7 +127,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     func updateSearchList() -> Void {
-        client.searchWithTerm(self.searchTerm, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+        client.searchWithTerm(term, deals_filter: self.deals_filter, sort: self.sort, radius: self.radius_filter, category_filter: self.category_filter, limit: self.limit, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             if response != nil {
                 let dictionary = response! as NSDictionary
                 var res = dictionary["businesses"] as NSArray
@@ -112,8 +140,32 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 return
             }
             }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
-                println(error)
+                self.activityIndicator.stopAnimating()
+                self.tableView.hidden = false
+                return
         }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        var height = scrollView.frame.size.height
+        var contentYoffset =  scrollView.contentOffset.y
+        var distanceFromBottom = scrollView.contentSize.height - contentYoffset
+        if (distanceFromBottom < height) {
+            self.tableView.hidden = true
+            self.activityIndicator.startAnimating()
+            self.limit += 10
+            self.updateSearchList()
+        }
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        self.term = searchText
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        self.tableView.hidden = true
+        self.activityIndicator.startAnimating()
+        self.updateSearchList()
     }
     
 }
