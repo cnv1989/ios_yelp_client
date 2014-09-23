@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		03D1A025B413415787AD3DF3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C56EF0CE844A4EE5819C72AF /* libPods.a */; };
+		1405E8E619D1130A00C1DF65 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1405E8E519D1130A00C1DF65 /* FilterViewController.swift */; };
 		1405FE5419CF70FC0060F9E8 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1405FE5319CF70FC0060F9E8 /* TableViewCell.swift */; };
+		14FF128219D131BA00234A56 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FF128119D131BA00234A56 /* SelectionTableViewCell.swift */; };
+		14FF128419D1342800234A56 /* DistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FF128319D1342800234A56 /* DistanceViewController.swift */; };
 		222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222D8A5A19CCF9F900D2DB53 /* AppDelegate.swift */; };
 		222D8A5D19CCF9F900D2DB53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222D8A5C19CCF9F900D2DB53 /* ViewController.swift */; };
 		222D8A6019CCF9F900D2DB53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 222D8A5E19CCF9F900D2DB53 /* Main.storyboard */; };
@@ -29,7 +32,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1405E8E519D1130A00C1DF65 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		1405FE5319CF70FC0060F9E8 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		14FF128119D131BA00234A56 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		14FF128319D1342800234A56 /* DistanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceViewController.swift; sourceTree = "<group>"; };
 		222D8A5519CCF9F900D2DB53 /* Yelp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yelp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		222D8A5919CCF9F900D2DB53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		222D8A5A19CCF9F900D2DB53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				1405FE5319CF70FC0060F9E8 /* TableViewCell.swift */,
+				14FF128119D131BA00234A56 /* SelectionTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -146,6 +153,8 @@
 			isa = PBXGroup;
 			children = (
 				222D8A5C19CCF9F900D2DB53 /* ViewController.swift */,
+				1405E8E519D1130A00C1DF65 /* FilterViewController.swift */,
+				14FF128319D1342800234A56 /* DistanceViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -295,8 +304,11 @@
 			files = (
 				222D8A5D19CCF9F900D2DB53 /* ViewController.swift in Sources */,
 				1405FE5419CF70FC0060F9E8 /* TableViewCell.swift in Sources */,
+				14FF128219D131BA00234A56 /* SelectionTableViewCell.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
+				14FF128419D1342800234A56 /* DistanceViewController.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
+				1405E8E619D1130A00C1DF65 /* FilterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
