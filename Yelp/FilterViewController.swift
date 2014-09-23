@@ -61,7 +61,7 @@ class FilterViewController: UITableViewController {
         
         self.sortFilter.name = "Sort By"
         self.sortFilter.choices = ["Best Matched", "Heighest Rated", "Distance"]
-        self.sortFilter.display_choices = [self.sortFilter.choices[SEARCH_OPTIONS.radius_filter]]
+        self.sortFilter.display_choices = [self.sortFilter.choices[SEARCH_OPTIONS.sort]]
         
         sections.updateValue(self.dealFilter, forKey: "deal")
         sections.updateValue(self.distanceFilter, forKey: "distance")

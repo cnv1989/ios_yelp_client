@@ -168,6 +168,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     override func viewDidAppear(animated: Bool) {
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         self.tableView.hidden = true
         self.activityIndicator.startAnimating()
         self.updateSearchOptions()
